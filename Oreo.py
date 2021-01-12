@@ -1,40 +1,37 @@
 import discord
 import random
+import os
 from discord import message
+from discord.client import Client
 from discord.ext import commands
 
 # Permissions.
 intents = discord.Intents(messages = True, guilds = True, reactions = True, members = True, presences = True)
 # Prefix Set.
-client = commands.Bot(command_prefix = '/', intents = intents)
-
-# On initialisation.
-@client.event
-async def on_ready():
-    print('Oreo is ready to be dunked!')
+bot = commands.Bot(command_prefix = '/', intents = intents)
 
 # When a member joins.
-@client.event
+@bot.event
 async def on_member_join(member):
     print(f'{member} has joined the nerd gang!')
 
 # When a member leaves.
-@client.event
+@bot.event
 async def on_member_remove(member):
     print(f'{member} has left, Fair enough.' )
 
 # You know what?
-@client.command()
+@bot.command()
 async def ykw(ctx):
     await ctx.send(f'You know what, Fair Enough. ')
 
 # Latency Check.
-@client.command()
+@bot.command()
 async def ping(ctx):
-    await ctx.send(f'Latency is {round(client.latency * 1000)}ms ')
+    await ctx.send(f'Latency is {round(bot.latency * 1000)}ms ')
 
 # Random 8 Ball.
-@client.command(aliases = ['8ball',])
+@bot.command(aliases = ['8ball',])
 async def _8ball(ctx, *, question):
     responses = ["It is certain.",
                  "It is decidedly so.",
@@ -56,14 +53,14 @@ async def _8ball(ctx, *, question):
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
 
 # Clear / Purge Chat * Amount.
-@client.command(aliases = ['purge'])
+@bot.command(aliases = ['purge'])
 async def clear(ctx, amount = 5):
     if ctx.author.guild_permissions.manage_messages:
         await ctx.channel.purge(limit = amount)
         await ctx.send(f'{amount} messages were cleared.')
 
 # Kicking someone * reason.   
-@client.command()
+@bot.command()
 async def kick(ctx, member : discord.Member, *, reason=None):
     if ctx.author.guild_permissions.kick_members:
         await member.kick(reason = reason)
@@ -72,7 +69,7 @@ async def kick(ctx, member : discord.Member, *, reason=None):
             print(f'{member} was kicked due to: {reason}')
 
 # Banning someone * reason.
-@client.command()
+@bot.command()
 async def ban(ctx, *, member: discord.Member=None):
     if ctx.author.guild_permissions.administrator:
         if member:
@@ -84,7 +81,7 @@ async def ban(ctx, *, member: discord.Member=None):
         await ctx.send("You know, banning isn't always the right way.")
 
 # Restoring a banned user.
-@client.command()
+@bot.command()
 async def unban(ctx, *, member):
     # Pulling ban list.
     banned_users = await ctx.guild.bans()
@@ -105,9 +102,30 @@ async def unban(ctx, *, member):
             await ctx.send(f'Fuck outta here')
 
 # Rick roll
-@client.command()
+@bot.command()
 async def dm(ctx, *, user : discord.User):
     await user.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO')
 
-# Startup * Bot Token
-client.run('Nzk4MDc5Mzk2MDQ0MzQxMjk4.X_vzWw.nIgor6SNmwxmpf5j-5C8c6COaZo')
+# For our lord, Gary.
+@bot.command()
+async def gary(ctx):
+    await ctx.send('All praise the supreme Chad, Gary Sun, the mentor from UNSW that knows how to code and bone. The ladies fall for him day and night, even if he still lives with his parents. Gary our lord and savior shall redeem us of our sins and make sure we do not stray into economics, the topic of hell, like he did. Gary is a cool dude, even if he went to baulko. He looks like he is 5 feet tall but that does not matter as we praise him for his charisma and athletic skills. All hail Lord Gary')
+
+# loading cogs function.
+@bot.command()
+async def load(ctx, extension):
+    bot.load_extension(f'cogs.{extension}')
+
+# Unloading cogs function.
+@bot.command()
+async def unload(ctx, extension):
+    bot.unload_extension(f'cogs.{extension}')
+
+# Loading cogs.
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
+
+
+# Startup * Bot Token.
+bot.run('lol')
