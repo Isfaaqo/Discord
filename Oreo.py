@@ -80,4 +80,4 @@ for filename in os.listdir('./cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
 # Startup * Bot Token.
-bot.run('Nzk4MDc5Mzk2MDQ0MzQxMjk4.X_vzWw.hOPMNi3l-DSwreJSdal88qs_gSM')
+bot.run('')
