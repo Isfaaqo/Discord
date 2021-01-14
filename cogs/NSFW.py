@@ -11,7 +11,8 @@ class NSFW(commands.Cog):
         self.bot = bot
 
     # For Yuki.
-    @commands.is_nsfw().command(aliases = ['nh',])
+    @commands.command().command(aliases = ['nh',])
+    @commands.is_nsfw()
     async def nhentai(self, ctx, code=None):
         if not code:
             code = randint(0, 425000)
