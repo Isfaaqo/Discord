@@ -59,4 +59,4 @@ for filename in os.listdir('./cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
 # Startup * Bot Token.
-bot.run('Nzk4MDc5Mzk2MDQ0MzQxMjk4.X_vzWw.nTn1drNi1FkWtnTD4rv0gmEZ3VI')
+bot.run('')
