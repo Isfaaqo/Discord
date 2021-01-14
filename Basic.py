@@ -55,6 +55,7 @@ class Basic(commands.Cog):
         await ctx.send(
             'All praise the supreme Chad, Gary Sun, the mentor from UNSW that knows how to code and bone. The ladies fall for him day and night, even if he still lives with his parents. Gary our lord and savior shall redeem us of our sins and make sure we do not stray into economics, the topic of hell, like he did. Gary is a cool dude, even if he went to baulko. He looks like he is 5 feet tall but that does not matter as we praise him for his charisma and athletic skills. All hail Lord Gary'
         )
+        
 # Bot setup.
 def setup(bot):
     bot.add_cog(Basic(bot))
