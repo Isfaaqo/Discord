@@ -41,14 +41,13 @@ class Basic(commands.Cog):
 
     # Rick roll
     @commands.command()
-    async def dm(self, ctx, users: discord.User, *, message=None):
-        for user in users:        
-            if not message:
-                await user.send(
-                    'https://i.gifer.com/4KL.gif'
-                )
-            else:
-                await user.send(message)
+    async def dm(self, ctx, user: discord.User, *, message=None):
+        if not message:
+            await user.send(
+                'https://i.gifer.com/4KL.gif'
+            )
+        else:
+            await user.send(message)
 
     # For our lord, Gary.
     @commands.command()
