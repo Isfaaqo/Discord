@@ -25,11 +25,6 @@ class Basic(commands.Cog):
     async def on_member_remove(self, member):
         print(f'{member} has left, Fair enough.')
 
-    # For Yuki.
-    @commands.command(hidden=True, aliases = 'nh')
-    async def nhentai(self, ctx, code):
-        await ctx.send(f'https://nhentai.net/g/{code}')
-
     # You know what?
     @commands.command()
     async def ykw(self, ctx):
