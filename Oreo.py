@@ -12,15 +12,12 @@ from threading import Thread
 
 app = Flask('')
 
-
 @app.route('/')
 def main():
     return "Oreo has been dunked."
 
-
 def run():
     app.run(host="0.0.0.0", port=8000)
-
 
 def keep_alive():
     server = Thread(target=run)
@@ -32,7 +29,6 @@ keep_alive()
 # Background Task.
 client = discord.Client()
 
-
 async def my_background_task():
     await client.wait_until_ready()
     counter = 0
@@ -42,14 +38,12 @@ async def my_background_task():
         await client.send_message(channel, counter)
         await asyncio.sleep(60)  # task runs every 60 seconds
 
-
 @client.event
 async def on_ready():
     print('Logged in as')
     print(client.user.name)
     print(client.user.id)
     print('------')
-
 
 client.loop.create_task(my_background_task())
 
@@ -59,25 +53,10 @@ intents = discord.Intents(
 # Prefix Set.
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-
-
-
-# loading cogs function.
-@bot.command()
-async def load(ctx, extension):
-    bot.load_extension(f'cogs.{extension}')
-
-
-# Unloading cogs function.
-@bot.command()
-async def unload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-
-
 # Loading cogs.
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
 # Startup * Bot Token.
-bot.run('')
+bot.run('Nzk4MDc5Mzk2MDQ0MzQxMjk4.X_vzWw.nTn1drNi1FkWtnTD4rv0gmEZ3VI')
