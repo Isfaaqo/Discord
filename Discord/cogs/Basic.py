@@ -1,7 +1,14 @@
 import discord
 import random
-from discord.ext import commands
-bot = commands.Bot(command_prefix = '/')
+from discord.ext import commands, tasks
+bot = commands.Bot(command_prefix='/')
+
+insults = {
+    "linux": "https://www.youtube.com/watch?v=QXUSvSUsx80",
+    "fat": "You're fat",
+    "library": "Fucking nerds"
+}
+
 
 # Cogs class.
 class Basic(commands.Cog):
@@ -12,12 +19,13 @@ class Basic(commands.Cog):
     # On initialisation.
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Oreo is ready to be dunked!')
+      await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="hentai"))
+      print('Oreo is ready to be dunked!')
 
     # You know what?
     @commands.command()
     async def ykw(self, ctx):
-        await ctx.send(f'You know what, Fair Enough. ')
+        await ctx.send(f'You know what, fair enough.')
 
     # Latency Check.
     @commands.command()
@@ -25,7 +33,9 @@ class Basic(commands.Cog):
         await ctx.send(f'Latency is {round(self.bot.latency * 1000)}ms ')
 
     # Random 8 Ball.
-    @commands.command(aliases=['8ball', ])
+    @commands.command(aliases=[
+        '8ball',
+    ])
     async def _8ball(self, ctx, *, question):
         responses = [
             "It is certain.", "It is decidedly so.", "Without a doubt.",
@@ -35,15 +45,14 @@ class Basic(commands.Cog):
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
-        await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+        await ctx.send(
+            f'Question: {question}\nAnswer: {random.choice(responses)}')
 
     # Rick roll
-    @commands.command()
+    @commands.command(aliases=['DM', 'Dm'])
     async def dm(self, ctx, user: discord.User, *, message=None):
         if not message:
-            await user.send(
-                'https://i.gifer.com/4KL.gif'
-            )
+            await user.send('https://i.gifer.com/4KL.gif')
         else:
             await user.send(message)
 
@@ -55,8 +64,30 @@ class Basic(commands.Cog):
         )
 
     @commands.command(aliases=['Help', 'HELP'])
-    async def help(self, ctx):
-        await ctx.send('This bot is made to be annoying :)')
+    async def help(self, ctx, page=0):
+        if not page:
+            await ctx.send(
+                "```Basic Commands : \n ykw - For Angela :) \n ping - To check latency \n 8ball - Ask a question \n dm - Make the bot message someone \n gary - For the Supreme Chad \n Page 1 of 3 - /help 2 and /help 3 to move.```"
+            )
+        elif page == 2:
+            await ctx.send(
+                "```Moderation Commands - Require Perms : \n clear/purge - Remove messages in format /clear amount \n kick - Kick someone off the server \n ban - Ban someone \n unban - Unban someone.```"
+            )
+        elif page == 3:
+            await ctx.send(
+                "```NSFW Commands : \n nhentai or nh with code afterwards provide specified hentai, if unspecified it will return a random one```"
+            )
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+        else:
+            for word in insults:
+                if word in message.content.lower():
+                    await message.channel.send(insults[word])
+
+
 # Bot setup.
 def setup(bot):
     bot.add_cog(Basic(bot))

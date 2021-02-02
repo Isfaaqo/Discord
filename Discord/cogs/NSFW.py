@@ -1,7 +1,5 @@
-import discord
 from random import randint
 from discord.ext import commands
-bot = commands.Bot(command_prefix = '/')
 
 # Cogs class.
 class NSFW(commands.Cog):
